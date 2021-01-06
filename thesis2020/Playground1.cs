@@ -1,5 +1,7 @@
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Engines;
+using System;
+using System.Linq;
 
 namespace MiscDemos
 {
