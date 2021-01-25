@@ -26,4 +26,4 @@ Just run the following script:
 
 **NOTICE:** Be sure you set up the lab environment first!
 
-    sh scripts/run-benchmarks.sh:
+    sh scripts/run-benchmarks.sh
