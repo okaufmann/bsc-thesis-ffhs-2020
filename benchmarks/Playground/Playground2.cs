@@ -2,9 +2,8 @@ using BenchmarkDotNet.Attributes;
 using System;
 using System.Linq;
 
-namespace Thesis2020
+namespace Thesis2020.Benchmarks.Playground
 {
-
     public class NameParser
     {
         public string GetLastName(string fullName)
