@@ -11,6 +11,7 @@ Ensure git is installed:
 
 Otherwise install it:
 
+    apt update
     apt install -y git
 
 ### Install tools
