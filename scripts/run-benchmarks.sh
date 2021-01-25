@@ -4,7 +4,7 @@
 cd "$(dirname "$0")/.."
 
 # enter benchmarks folder
-cd benchmarks
+cd src
 
 # cleanup
 rm -Rf bin
