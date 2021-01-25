@@ -3,7 +3,7 @@ using BenchmarkDotNet.Engines;
 using System;
 using System.Linq;
 
-namespace MiscDemos
+namespace Thesis2020
 {
 
     [MemoryDiagnoser]
