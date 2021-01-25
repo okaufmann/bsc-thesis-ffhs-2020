@@ -3,7 +3,7 @@ using System;
 using System.Runtime.InteropServices;
 using Thesis2020.Benchmarks;
 
-namespace Thesis2020.Benchmarks
+namespace Thesis2020
 {
     class Program
     {

@@ -2,7 +2,7 @@ using BenchmarkDotNet.Attributes;
 using System;
 using System.Linq;
 
-namespace Thesis2020.Benchmarks.Playground
+namespace Thesis2020.Playground
 {
     public class NameParser
     {
