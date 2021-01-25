@@ -5,7 +5,7 @@ cd "$(dirname "$0")/.."
 
 # Update system
 apt update
-apt upgrade
+apt upgrade -y
 
 # install .net core SDK
 # https://docs.microsoft.com/en-us/dotnet/core/install/linux-debian
@@ -13,6 +13,7 @@ apt upgrade
 # Add .net source
 wget https://packages.microsoft.com/config/debian/10/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
 dpkg -i packages-microsoft-prod.deb
+rm -f packages-microsoft-prod.deb
 
 # install sdk
 apt update
@@ -28,4 +29,4 @@ apt-key adv --keyserver keys.gnupg.net --recv-key 'E19F5F87128899B192B1A2C2AD5F9
 add-apt-repository 'deb https://cloud.r-project.org/bin/linux/debian buster-cran35/'
 
 apt update
-apt install r-base
+apt install -y r-base
