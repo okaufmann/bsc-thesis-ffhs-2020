@@ -24,7 +24,7 @@ apt install -y dotnet-sdk-3.1
 # Installing R
 # https://linuxize.com/post/how-to-install-r-on-debian-10/
 
-apt install -y dirmngr apt-transport-https ca-certificates software-properties-common gnupg2
+apt install -y dirmngr apt-transport-https ca-certificates software-properties-common gnupg2 build-essential
 apt-key adv --keyserver keys.gnupg.net --recv-key 'E19F5F87128899B192B1A2C2AD5F960A256A04AF'
 add-apt-repository 'deb https://cloud.r-project.org/bin/linux/debian buster-cran35/'
 
