@@ -19,5 +19,6 @@ dotnet run -c Release -- --runtimes netcoreapp31 --filter Thesis2020.Benchmarks*
 
 echo "Packaging results"
 zip -r BenchmarkDotNet.Artifacts.zip BenchmarkDotNet.Artifacts
+rm -Rf ../results/
 mkdir -p ../results/
 mv BenchmarkDotNet.Artifacts.zip ../results/"$(hostname)-results.zip"
