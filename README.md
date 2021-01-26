@@ -22,7 +22,7 @@ Just run the following script:
     cd bsc-thesis-ffhs-2020
     sh scripts/install-env.sh
 
-## Run Benchmarks
+## Run Benchmarks
 
 **NOTICE:** Be sure you set up the lab environment first!
 
