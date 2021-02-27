@@ -1,14 +1,17 @@
-﻿namespace Thesis2020.Benchmarks
+﻿
+namespace Thesis2020.Experiments
 {
-
-    using BenchmarkDotNet.Attributes;
     using System;
     using System.Linq;
+    using BenchmarkDotNet.Attributes;
 
-    [Config(typeof(DefaultConfig))]
-    public class SpliceTests
+    [MemoryDiagnoser]
+    [CsvMeasurementsExporter]
+    [RPlotExporter]
+    public class ReverseExperiments
     {
         private int[] _testArray;
+
         private Memory<int> _testMemory;
 
         [Params(10, 1000, 10000)]
@@ -19,7 +22,8 @@
         {
             _testArray = new int[Size];
 
-            for (var i = 0; i < Size; i++) { 
+            for (var i = 0; i < Size; i++)
+            {
                 _testArray[i] = i;
             }
 
@@ -29,19 +33,24 @@
         [Benchmark(Baseline = true)]
         public int[] Array()
         {
-            return _testArray.Skip(Size / 2).Take(Size / 4).ToArray();
+            return _testArray.Reverse().ToArray();
         }
 
         [Benchmark]
         public Span<int> Span()
         {
-            return _testArray.AsSpan().Slice(Size / 2, Size / 4);
+            var span = _testArray.AsSpan();
+            span.Reverse();
+
+            return span;
         }
 
         [Benchmark]
-        public Span<int> Memory()
+        public Memory<int> Memory()
         {
-            return _testMemory.Span.Slice(Size / 2, Size / 4);
+            _testMemory.Span.Reverse();
+
+            return _testMemory;
         }
     }
 }
