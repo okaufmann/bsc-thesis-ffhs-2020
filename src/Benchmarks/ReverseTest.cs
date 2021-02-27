@@ -1,19 +1,14 @@
-﻿
-using BenchmarkDotNet.Attributes;
-using System;
-using System.Buffers;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Thesis2020.Benchmarks
+﻿namespace Thesis2020.Benchmarks
 {
-    [MemoryDiagnoser]
-    [CsvMeasurementsExporter]
-    [RPlotExporter]
+    using BenchmarkDotNet.Attributes;
+    using System;
+    using System.Linq;
+
+    [Config(typeof(DefaultConfig))]
     public class ReverseTests
     {
         private int[] _testArray;
-        private List<int> _testList;
+
         private Memory<int> _testMemory;
 
         [Params(10, 1000, 10000)]
@@ -29,7 +24,6 @@ namespace Thesis2020.Benchmarks
                 _testArray[i] = i;
             }
 
-            _testList = _testArray.ToList();
             _testMemory = _testArray.AsMemory();
         }
 
@@ -40,27 +34,20 @@ namespace Thesis2020.Benchmarks
         }
 
         [Benchmark]
-        public List<int> List()
+        public Span<int> Span()
         {
-             _testList.Reverse();
+            var span = _testArray.AsSpan();
+            span.Reverse();
 
-            return _testList;
+            return span;
         }
 
         [Benchmark]
-        public Span<int> Span()
+        public Memory<int> Memory()
         {
-            var reversed = _testArray.AsSpan();
-            reversed.Reverse();
+            _testMemory.Span.Reverse();
 
-            return reversed;
+            return _testMemory;
         }
-
-        //[Benchmark]
-        //public Memory<int> Memory()
-        //{
-        //    // does not exist
-        //    return _testMemory.Reverse();
-        //}
     }
 }
