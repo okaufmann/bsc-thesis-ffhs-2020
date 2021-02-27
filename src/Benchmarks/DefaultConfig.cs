@@ -16,8 +16,6 @@ namespace Thesis2020.Benchmarks
             AddJob(Job.Default);
             AddDiagnoser(MemoryDiagnoser.Default);
             AddExporter(CsvMeasurementsExporter.Default, RPlotExporter.Default);
-            AddHardwareCounters(HardwareCounter.BranchMispredictions, HardwareCounter.BranchInstructions);
-
         }
 
     }
