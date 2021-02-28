@@ -15,24 +15,26 @@ for experiment, values in data:
     experimentName = experiment[0].replace('Experiments', '')
     name = f"{experimentName}-{experiment[2]}-{experiment[1]}"
     experimentValues = [
-            value for value in values["Measurement_Value"]]
+        value for value in values["Measurement_Value"]]
     if not experimentName in results:
         results[experimentName] = {}
 
     if not experiment[2] in results[experimentName]:
         results[experimentName][experiment[2]] = {}
 
-    # print(name)
-    # print(len(experimentValues))
     results[experimentName][experiment[2]][experiment[1]] = experimentValues
 
 for method in results:
     for size in results[method]:
-        data = [results[method][size][dataType] for dataType in results[method][size]]
+        data = [results[method][size][dataType]
+                for dataType in results[method][size]]
         stat, p = levene(*data)
         nullHypothesisRejected = p <= 0.05
-        print(f"{method}, {size}: p=", p, ", reject null hypothesis:", nullHypothesisRejected)
+        print(f"{method}, {size}: p=", p,
+              ", reject null hypothesis:", nullHypothesisRejected)
 
-        data = [results[method][size][dataType] for dataType in results[method][size] if dataType != 'Array']
+        data = [results[method][size][dataType]
+                for dataType in results[method][size] if dataType != 'Array']
         stat, p = levene(*data)
-        print(f"{method}, {size} (Span vs. Memory): p=", p, ", reject null hypothesis:", nullHypothesisRejected)
+        print(f"{method}, {size} (Span vs. Memory): p=", p,
+              ", reject null hypothesis:", nullHypothesisRejected)

@@ -31,12 +31,12 @@ csvPath = path.join(cwd, '../results/all-data.csv')
 
 df = pd.read_csv(csvPath)
 
-data = df.groupby(['Target_Type', 'Target_Method', 'Params'])
+data = df.groupby(['Target_Type', 'Target_Method', 'Params', 'Result_Set'])
 
 results = {}
 for experiment, values in data:
     experimentName = experiment[0].replace('Experiments', '')
-    name = f"{experimentName}-{experiment[2]}-{experiment[1]}"
+    name = f"{experiment[3]}-{experimentName}-{experiment[2]}-{experiment[1]}"
     experimentValues = [
         value for value in values["Measurement_Value"]]
     if not experimentName in results:
@@ -45,15 +45,18 @@ for experiment, values in data:
     if not experiment[2] in results[experimentName]:
         results[experimentName][experiment[2]] = {}
 
-    results[experimentName][experiment[2]][experiment[1]] = experimentValues
+    if not experiment[3] in results[experimentName][experiment[2]]:
+        results[experimentName][experiment[2]][experiment[3]] = {}
+
+    results[experimentName][experiment[2]][experiment[3]][experiment[1]] = experimentValues
 
 for method in results:
     for size in results[method]:
+        for computer in results[method][size]:
+            name = f"{computer}-{method} ({size})"
+            data = [results[method][size][computer][dataType]
+                    for dataType in results[method][size][computer]]
 
-        name = f"{method} ({size})"
-        data = [results[method][size][dataType]
-                for dataType in results[method][size]]
+            flatData = np.hstack(data)
 
-        flatData = np.hstack(data)
-
-        percentiles(flatData, name)
+            percentiles(flatData, name)
