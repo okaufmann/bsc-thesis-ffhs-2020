@@ -27,9 +27,12 @@ for experiment, values in data:
     results[experimentName][experiment[2]][experiment[1]] = experimentValues
 
 for method in results:
-    print(method)
     for size in results[method]:
         data = [results[method][size][dataType] for dataType in results[method][size]]
         stat, p = levene(*data)
         nullHypothesisRejected = p <= 0.05
         print(f"{method}, {size}: p=", p, ", reject null hypothesis:", nullHypothesisRejected)
+
+        data = [results[method][size][dataType] for dataType in results[method][size] if dataType != 'Array']
+        stat, p = levene(*data)
+        print(f"{method}, {size} (Span vs. Memory): p=", p, ", reject null hypothesis:", nullHypothesisRejected)
