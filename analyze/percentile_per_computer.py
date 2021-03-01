@@ -35,20 +35,20 @@ data = df.groupby(['Target_Type', 'Target_Method', 'Params', 'Result_Set'])
 
 results = {}
 for experiment, values in data:
-    experimentName = experiment[0].replace('Experiments', '')
-    name = f"{experiment[3]}-{experimentName}-{experiment[2]}-{experiment[1]}"
+    method = experiment[0].replace('Experiments', '')
+    name = f"{experiment[3]}-{method}-{experiment[2]}-{experiment[1]}"
     experimentValues = [
         value for value in values["Measurement_Value"]]
-    if not experimentName in results:
-        results[experimentName] = {}
+    if not method in results:
+        results[method] = {}
 
-    if not experiment[2] in results[experimentName]:
-        results[experimentName][experiment[2]] = {}
+    if not experiment[2] in results[method]:
+        results[method][experiment[2]] = {}
 
-    if not experiment[3] in results[experimentName][experiment[2]]:
-        results[experimentName][experiment[2]][experiment[3]] = {}
+    if not experiment[3] in results[method][experiment[2]]:
+        results[method][experiment[2]][experiment[3]] = {}
 
-    results[experimentName][experiment[2]][experiment[3]][experiment[1]] = experimentValues
+    results[method][experiment[2]][experiment[3]][experiment[1]] = experimentValues
 
 for method in results:
     for size in results[method]:

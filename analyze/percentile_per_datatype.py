@@ -36,24 +36,29 @@ data = df.groupby(['Target_Type', 'Target_Method', 'Params'])
 results = {}
 for experiment, values in data:
     method = experiment[0].replace('Experiments', '')
-    name = f"{method}-{experiment[2]}-{experiment[1]}"
+    datatype = experiment[1]
+    size = experiment[2]
+
+    name = f"{method}-{datatype}-{size}"
     experimentValues = [
         value for value in values["Measurement_Value"]]
     if not method in results:
         results[method] = {}
 
-    if not experiment[2] in results[method]:
-        results[method][experiment[2]] = {}
+    if not datatype in results[method]:
+        results[method][datatype] = {}
 
-    results[method][experiment[2]][experiment[1]] = experimentValues
+    results[method][datatype][size] = experimentValues
+
 
 for method in results:
-    for size in results[method]:
+    for datatype in results[method]:
+        for size in results[method][datatype]:
+            name = f"{method}-{datatype} ({size})"
+            print(name)
+            data = [results[method][datatype][size]
+                    for dataType in results[method][datatype][size]]
 
-        name = f"{method} ({size})"
-        data = [results[method][size][dataType]
-                for dataType in results[method][size]]
+            flatData = np.hstack(data)
 
-        flatData = np.hstack(data)
-
-        percentiles(flatData, name)
+            percentiles(flatData, name)
