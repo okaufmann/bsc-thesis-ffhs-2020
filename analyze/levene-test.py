@@ -1,6 +1,7 @@
 import pandas as pd
 import os.path as path
 from scipy.stats import levene
+import numpy as np
 
 cwd = path.dirname(__file__)
 
@@ -35,12 +36,13 @@ for method in results:
         data = [results[method][size][dataType]
                 for dataType in results[method][size]]
         stat, p = levene(*data)
-        nullHypothesisRejected = p <= 0.05
+        nullHypothesisRejected = (p <= 0.05)
         print(f"{method}, {size}: p=", p,
               ", reject null hypothesis:", nullHypothesisRejected)
 
         data = [results[method][size][dataType]
                 for dataType in results[method][size] if dataType != 'Array']
         stat, p = levene(*data)
+        nullHypothesisRejected = (p <= 0.05)
         print(f"{method}, {size} (Span vs. Memory): p=", p,
               ", reject null hypothesis:", nullHypothesisRejected)
