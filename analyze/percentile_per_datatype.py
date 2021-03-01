@@ -5,6 +5,13 @@ import numpy as np
 cwd = path.dirname(__file__)
 
 
+# CPU Measurements
+# measurementColumn = 'Measurement_Value'
+
+# RAM Measurements
+measurementColumn = 'Allocated_Bytes'
+
+
 def percentiles(data, name):
     minimum = np.percentile(data, 0)
     lowerQuartile = np.percentile(data, 25)
@@ -39,9 +46,9 @@ for experiment, values in data:
     datatype = experiment[1]
     size = experiment[2]
 
-    name = f"{method}-{datatype}-{size}"
+
     experimentValues = [
-        value for value in values["Measurement_Value"]]
+        value for value in values[measurementColumn]]
     if not method in results:
         results[method] = {}
 
@@ -50,15 +57,14 @@ for experiment, values in data:
 
     results[method][datatype][size] = experimentValues
 
+    # print(f"{method}-{datatype}-{size} {len(experimentValues)}")
+
 
 for method in results:
     for datatype in results[method]:
         for size in results[method][datatype]:
+            data = results[method][datatype][size]
+
             name = f"{method}-{datatype} ({size})"
-            print(name)
-            data = [results[method][datatype][size]
-                    for dataType in results[method][datatype][size]]
 
-            flatData = np.hstack(data)
-
-            percentiles(flatData, name)
+            percentiles(data, name)

@@ -11,42 +11,35 @@ style.use('ggplot')
 
 cwd = path.dirname(__file__)
 
-allDataFile = path.join(cwd, f'../results/all-data.csv')
-allDataHeadersWritten = False
+# CPU Measurements
+outputFolder = 'cpu'
+measurementColumn = 'Measurement_Value'
+yLabel = "Time, ns"
 
+# RAM Measurements
+# outputFolder = 'ram'
+# measurementColumn = 'Allocated_Bytes'
+# yLabel = "Allocated, bytes"
 
 def prepare():
 
-    # clear all data
-    allData = path.join(cwd, f'../results/all-data.csv')
-    if path.exists(allData):
-        os.remove(allData)
-
     # delete generated graphs
     files = glob.glob(
-        path.join(cwd, '../results/graphs/*.png'), recursive=True)
+        path.join(cwd, f"../results/graphs/{outputFolder}/*.png"), recursive=True)
     [os.remove(f) for f in files]
-
-
-def appendDataFrames(content):
-    file = open(allDataFile, 'a')
-    file.write(content)
-    file.close()
 
 
 def createSingleBoxplot(data, name, filename):
     plt.figure()
     plt.boxplot(data)
     plt.title(name)
-    plt.ylabel("Time, ms")
+    plt.ylabel(yLabel)
     plt.xticks([])
     plt.subplots_adjust(bottom=.2, left=.2)
-    # plt.subplots_adjust(left=0.08, right=0.98, bottom=0.05, top=0.9,
-    #     hspace=1.4, wspace=5.3)
 
-    filename = path.join(cwd, f'../results/graphs/{filename}')
+    filename = path.join(
+        cwd, f'../results/graphs/{outputFolder}/single/{filename}')
     plt.savefig(filename, dpi=200)
-    # plt.show()
     plt.close()
 
 
@@ -54,40 +47,24 @@ def createSingleHistogram(data, name, filename):
     plt.figure()
     plt.hist(data, bins=10)
     plt.title(name)
-    # plt.ylabel("Time, ms")
-    # plt.xticks([])
     plt.subplots_adjust(bottom=.2, left=.2)
-    # plt.subplots_adjust(left=0.08, right=0.98, bottom=0.05, top=0.9,
-    #     hspace=1.4, wspace=5.3)
+    plt.xlabel(yLabel)
 
-    filename = path.join(cwd, f'../results/graphs/{filename}')
+    filename = path.join(
+        cwd, f'../results/graphs/{outputFolder}/single/{filename}')
     plt.savefig(filename, dpi=200)
-    # plt.show()
     plt.close()
 
 
 def createGraph(csvPath):
     global allDataHeadersWritten
-    # path.join(cwd, "../results/do-testserver-results/results/Thesis2020.Experiments.ReverseExperiments-measurements.csv"
-    df = pd.read_csv(csvPath,
-                     usecols=["Target", "Target_Type", "Target_Method", "Params", "Measurement_IterationStage",
-                              "Measurement_Value", "Measurement_Nanoseconds"],
-                     )
+
+    results = pd.read_csv(csvPath)
 
     resultSet = path.basename(path.dirname(
         path.split(path.abspath(csvPath))[0]))
 
-    results = df.query('Measurement_IterationStage == "Result"')
-    results["Result_Set"] = resultSet
-
-    writeHeaders = not allDataHeadersWritten
-    appendDataFrames(results.to_csv(
-        index=False, header=writeHeaders))
-    allDataHeadersWritten = True
     data = results.groupby(['Target_Type', 'Target_Method', 'Params'])
-
-    # plt.boxplot(experimentValues)
-    # plt.title(f"{experiment[0]}{experiment[1]}")
 
     allData = []
     labels = []
@@ -95,7 +72,7 @@ def createGraph(csvPath):
         experimentName = experiment[0].replace('Experiments', '')
         name = f"{experimentName}-{experiment[1]}-{experiment[2]}"
         experimentValues = [
-            value for value in values["Measurement_Value"]]
+            value for value in values[measurementColumn]]
         allData.append(experimentValues)
         labels.append(f"{experiment[1]} ({experiment[2]})")
 
@@ -109,12 +86,12 @@ def createGraph(csvPath):
     axs.set_title(f"{resultSet}-{csvFilename}")
     axs.boxplot(allData)
     axs.set_xticklabels(labels)
-    axs.set_ylabel("Time, ns")
+    axs.set_ylabel(yLabel)
 
     plt.subplots_adjust(bottom=.1, left=.1)
 
     filename = path.join(
-        cwd, f'../results/graphs/{resultSet}-{csvFilename}.png')
+        cwd, f'../results/graphs/{outputFolder}/{resultSet}-{csvFilename}.png')
     plt.savefig(filename, dpi=200)
     # plt.show()
     plt.close()
@@ -122,9 +99,6 @@ def createGraph(csvPath):
 
 prepare()
 
-pattern = path.join(cwd, '../results/**/*-measurements.csv')
+pattern = path.join(cwd, '../results/all-data.csv')
 
-files = glob.glob(
-    path.join(cwd, '../results/**/*-measurements.csv'), recursive=True)
-for f in files:
-    createGraph(f)
+createGraph(path.join(cwd, '../results/all-data.csv'))

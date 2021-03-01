@@ -4,6 +4,12 @@ from scipy.stats import levene
 
 cwd = path.dirname(__file__)
 
+# CPU Measurements
+measurementColumn = 'Measurement_Value'
+
+# RAM Measurements
+# measurementColumn = 'Allocated_Bytes'
+
 csvPath = path.join(cwd, '../results/all-data.csv')
 
 df = pd.read_csv(csvPath)
@@ -15,7 +21,7 @@ for experiment, values in data:
     experimentName = experiment[0].replace('Experiments', '')
     name = f"{experimentName}-{experiment[2]}-{experiment[1]}"
     experimentValues = [
-        value for value in values["Measurement_Value"]]
+        value for value in values[measurementColumn]]
     if not experimentName in results:
         results[experimentName] = {}
 

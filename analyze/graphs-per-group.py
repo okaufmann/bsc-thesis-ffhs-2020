@@ -11,18 +11,26 @@ style.use('ggplot')
 
 cwd = path.dirname(__file__)
 
+# CPU Measurements
+outputFolder = 'cpu'
+measurementColumn = 'Measurement_Value'
+yLabel = "Time, ns"
+
+# RAM Measurements
+# outputFolder = 'ram'
+# measurementColumn = 'Allocated_Bytes'
+# yLabel = "Allocated, bytes"
+
 def plotBoxplot(title, data, labels, filename):
     fig, axs = plt.subplots()
 
     axs.set_title(title)
     axs.boxplot(data)
     axs.set_xticklabels(labels)
-    axs.set_ylabel("Time, ns")
-
-    # plt.subplots_adjust(bottom=.1, left=.1)
+    axs.set_ylabel(yLabel)
 
     filename = path.join(
-        cwd, f'../results/graphs/{filename}')
+        cwd, f'../results/graphs/{outputFolder}/{filename}')
     plt.savefig(filename, dpi=200)
     plt.close()
 
@@ -39,7 +47,7 @@ def main():
         experimentName = experiment[0].replace('Experiments', '')
         name = f"{experimentName}-{experiment[2]}-{experiment[1]}"
         experimentValues = [
-                value for value in values["Measurement_Value"]]
+                value for value in values[measurementColumn]]
         if not experimentName in results:
             results[experimentName] = {}
 
@@ -52,8 +60,6 @@ def main():
         for size in results[method]:
             labels = [dataType for dataType in results[method][size]]
             data = [results[method][size][dataType] for dataType in results[method][size]]
-            for i in data:
-                print(f"{method}-{size}", len(i))
 
             plotBoxplot(f"{method} ({size})", data, labels, f"{method}-{size}-boxplot.png")
 
