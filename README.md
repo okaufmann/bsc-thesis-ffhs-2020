@@ -1,7 +1,7 @@
 Bachelor-Thesis (DINF), HS20/21
 ===
 
-## Setup lab environment
+## Install
 
 ### Prerequirements
 
@@ -24,6 +24,6 @@ Just run the following script:
 
 ## Run Benchmarks
 
-**NOTICE:** Be sure you set up the lab environment first!
+**NOTICE:** Be sure you install the needed software first!
 
     sh scripts/run-benchmarks.sh
