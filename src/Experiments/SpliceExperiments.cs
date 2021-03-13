@@ -7,7 +7,7 @@
     [MemoryDiagnoser]
     [CsvMeasurementsExporter]
     [RPlotExporter]
-    public class SpliceExperiments
+    public class SliceExperiments
     {
         private int[] _testArray;
 
@@ -22,7 +22,7 @@
             _testArray = new int[Size];
 
             for (var i = 0; i < Size; i++)
-            { 
+            {
                 _testArray[i] = i;
             }
 

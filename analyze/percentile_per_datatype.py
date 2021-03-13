@@ -44,8 +44,8 @@ for method in results:
     for datatype in results[method]:
         for size in results[method][datatype]:
             data = results[method][datatype][size]
-
             name = f"{method}-{datatype} ({size})"
+            print(f"{name}, count: {len(data)}")
 
             minPercentile = np.percentile(data, 0)
             lowerQuartile = np.percentile(data, 25)
