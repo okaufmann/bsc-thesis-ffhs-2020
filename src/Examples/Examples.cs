@@ -57,16 +57,21 @@
             Memory<int> memory = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }.AsMemory();
 
             // Teil aus dem array wird referenziert (3, 4, 5).
-            Memory<int> part = memory.Slice(2,3);
+            Span<int> part = memory.Span.Slice(2,3);
 
             Console.WriteLine("[{0}]", string.Join(", ", part.ToArray()));
-            part.Span[2] = 99;
+            part[2] = 99;
             Console.WriteLine("[{0}]", string.Join(", ", part.ToArray()));
 
             Console.WriteLine("[{0}]", string.Join(", ", memory.ToArray()));
         }
 
         public void Test5(Span<int> test)
+        {
+            test[0] = 88;
+        }
+
+        public void Test6(Span<int> test)
         {
             test[0] = 88;
         }
