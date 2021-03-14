@@ -46,6 +46,9 @@ for method in results:
             data = [results[method][size][computer][dataType]
                     for dataType in results[method][size][computer]]
 
+            for dataTypeData in data:
+                print(f"{name}, count: {len(dataTypeData)}")
+
             data = np.hstack(data)
 
             minPercentile = np.percentile(data, 0)
