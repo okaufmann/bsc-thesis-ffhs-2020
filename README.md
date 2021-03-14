@@ -27,3 +27,16 @@ Just run the following script:
 **NOTICE:** Be sure you install the needed software first!
 
     sh scripts/run-benchmarks.sh
+
+## Dependencies
+
+The following dependencies where used and not developed by Oliver Kaufmann:
+
+- [BenchmarkDotNet v0.12.1](https://github.com/dotnet/BenchmarkDotNet/releases/tag/v0.12.1)
+- [.NET Core 3.1](https://dotnet.microsoft.com/download/dotnet/3.1)
+- [scipy](https://github.com/scipy/scipy)
+- [numpy](https://github.com/numpy/numpy)
+- [pandas](https://github.com/pandas-dev/pandas)
+- [matplotlib](https://github.com/matplotlib/matplotlib)
+- [tabulate](https://github.com/astanin/python-tabulate)
+- [python3](https://www.python.org/download/releases/3.0/)
