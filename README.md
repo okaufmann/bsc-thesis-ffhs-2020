@@ -28,6 +28,29 @@ Just run the following script:
 
     sh scripts/run-benchmarks.sh
 
+## Analysis
+
+Run the following Scripts to generate the used graphs and numbers:
+
+    # install dependencies
+    pip3 install -r requirements.txt
+
+    # Prepare data
+    python3 analyze/prepare-data.py
+
+    # Generate statistical numbers per datatype
+    python3 analyze/percentile_per_datatype.py > results/statistics/percentiles_per_datatype.txt
+
+    # Generate statistical numbers per server
+    python3 analyze/percentile_per_computer.py  > results/statistics/percentiles_per_computer.txt
+
+    # run the levene test
+    python3 analyze/levene-test.py > results/statistics/cpu-levene-test.txt
+
+    # generate boxplot diagrams
+    python3 analyze/graphs-per-group.py
+
+
 ## Dependencies
 
 The following dependencies where used and not developed by Oliver Kaufmann:
